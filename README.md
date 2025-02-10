@@ -29,6 +29,8 @@ Complete the installation.
 sudo hostnamectl set-hostname yourusername-host
 hostnamectl
 ```
+![image](https://github.com/Pomog/deep-in-system/blob/main/hostname.png)
+
 6. Network Configuration
 On Ubuntu, networking is managed by Netplan. Open the Netplan configuration file (the filename might be 01-netcfg.yaml or similar in /etc/netplan/
 ```bash
