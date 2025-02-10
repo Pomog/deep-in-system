@@ -15,6 +15,7 @@
 - Allocate at least 30 GB of disk space.
 - Assign a username that will serve as your login name.
 - VM’s disk: Swap: 4 GB; Root (/): 15 GB; Home (/home): 5 GB; Backup (/backup): 6 GB
+![image](https://github.com/Pomog/deep-in-system/blob/main/partition.png)
 ```
 When installing Ubuntu, choose "Custom Storage Layout" or "Manual" or "Custom" partitioning.
 Create a swap partition of 4 GB.
@@ -54,3 +55,5 @@ Verify you can reach the Internet:
 ```bash
 ping -c 5 google.com
 ```
+
+
