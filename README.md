@@ -16,7 +16,7 @@
 - Assign a username that will serve as your login name.
 - VM’s disk: Swap: 4 GB; Root (/): 15 GB; Home (/home): 5 GB; Backup (/backup): 6 GB
 ```
-When installing Ubuntu, choose “Manual” or “Custom” partitioning.
+When installing Ubuntu, choose "Custom Storage Layout" or "Manual" or "Custom" partitioning.
 Create a swap partition of 4 GB.
 Create a primary partition mounted as / of 15 GB.
 Create a separate partition for /home of 5 GB.
