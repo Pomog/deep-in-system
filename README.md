@@ -105,5 +105,17 @@ ssh -p 2222 yurii@192.168.1.100
 ![image](https://github.com/Pomog/deep-in-system/blob/main/testSSH.png)
 ![image](https://github.com/Pomog/deep-in-system/blob/main/testSSH_2.png)
 
+- Configure the Firewall
+Use UFW (Uncomplicated Firewall) to restrict access.
+Allow only necessary ports (e.g., SSH on 2222, HTTP if using Apache for WordPress, FTP if needed)
+```
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+sudo ufw allow 2222/tcp
+sudo ufw allow 80/tcp
+sudo ufw allow 21/tcp
 
+sudo ufw enable
+sudo ufw status verbose
+```
 
