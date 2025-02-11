@@ -34,7 +34,7 @@ hostnamectl
 6. Network Configuration
 On Ubuntu, networking is managed by Netplan. Open the Netplan configuration file (the filename might be 01-netcfg.yaml or similar in /etc/netplan/
 ```bash
-sudo nano /etc/netplan/01-netcfg.yaml
+sudo vim /etc/netplan/50-cloud-init.yaml
 ```
 Replace <interface> with your network interface (e.g., ens33), and choose a static IP (for example, 192.168.1.100/24) and proper gateway:
 ```
