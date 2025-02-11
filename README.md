@@ -118,4 +118,6 @@ sudo ufw allow 21/tcp
 sudo ufw enable
 sudo ufw status verbose
 ```
+![image](https://github.com/Pomog/deep-in-system/blob/main/ufw.png)
+
 
