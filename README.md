@@ -120,4 +120,22 @@ sudo ufw status verbose
 ```
 ![image](https://github.com/Pomog/deep-in-system/blob/main/ufw.png)
 
+- User Management
+Create User “luffy” (Public Key Authentication)
+```
+sudo adduser fluffy
+sudo usermod -aG sudo fluffy
+```
+Set up SSH keys for fluffy
+```
+su - fluffy
+mkdir -p ~/.ssh && chmod 700 ~/.ssh
+vim ~/.ssh/authorized_keys
+chmod 600 ~/.ssh/authorized_keys
+```
+Create User “zoro” (Password Authentication Only)
+```
+sudo adduser zoro
+```
+
 
