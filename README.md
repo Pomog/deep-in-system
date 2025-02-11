@@ -50,13 +50,60 @@ network:
       nameservers:
         addresses: [8.8.8.8, 8.8.4.4]
 ```
+or as gateway4 is deprecated in newer Netplan versions:
+```
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    ens33:
+      dhcp4: no
+      addresses:
+        - 192.168.1.100/24
+      nameservers:
+        addresses: [8.8.8.8, 8.8.4.4]
+      routes:
+        - to: 0.0.0.0/0
+          via: 192.168.1.1
+```
 Apply the Configuration
 ```bash
 sudo netplan apply
 ```
+** CHECK that VMware works in Bridged mode,  because in NAT mode, VMware creates a separate virtual network with its own gateway  **
 Verify you can reach the Internet:
 ```bash
 ping -c 5 google.com
 ```
+
+6. Security Configuration
+- Install OpenSSH server
+```bash
+sudo apt update
+sudo apt install openssh-server
+```
+- Disable Remote Root Login & Change SSH Port
+```
+sudo ls /etc/ssh/
+sudo vim /etc/ssh/sshd_config
+```
+Make these changes:
+Disable root login: PermitRootLogin no
+Change the SSH port: Port 2222
+
+- start or restart ssh, or maybe VM restart in needed
+```
+sudo systemctl restart ssh
+```
+- Test SSH on the new port from another terminal or machine
+```
+Test-NetConnection 192.168.1.100 -Port 2222
+or
+ssh -p 2222 yourusername@yourserver-ip
+ssh -p 2222 yurii@192.168.1.100 
+```
+![image](https://github.com/Pomog/deep-in-system/blob/main/testSSH.png)
+![image](https://github.com/Pomog/deep-in-system/blob/main/testSSH_2.png)
+
 
 
