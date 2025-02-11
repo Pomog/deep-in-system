@@ -36,6 +36,7 @@ On Ubuntu, networking is managed by Netplan. Open the Netplan configuration file
 ```bash
 sudo vim /etc/netplan/50-cloud-init.yaml
 ```
+![image](https://github.com/Pomog/deep-in-system/blob/main/50-cloud-init-old.png)
 Replace <interface> with your network interface (e.g., ens33), and choose a static IP (for example, 192.168.1.100/24) and proper gateway:
 ```
 network:
