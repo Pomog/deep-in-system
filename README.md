@@ -139,6 +139,7 @@ sudo usermod -aG sudo fluffy
 ```
 ssh-keygen -t rsa -b 4096 -C "thoryur@gmail.com" 
 ```
+```
 su - fluffy
 mkdir -p ~/.ssh && chmod 700 ~/.ssh
 vim ~/.ssh/authorized_keys
