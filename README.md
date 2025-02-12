@@ -121,12 +121,23 @@ sudo ufw status verbose
 ![image](https://github.com/Pomog/deep-in-system/blob/main/ufw.png)
 
 - User Management
+To check the UID_MIN and UID_MAX values on your system, you can use the following command:
+```
+grep -E '^UID_MIN|^UID_MAX' /etc/login.defs
+```
+list all normal users in our Linux system:
+```
+getent passwd {1000..60000}
+```
 Create User “luffy” (Public Key Authentication)
 ```
 sudo adduser fluffy
 sudo usermod -aG sudo fluffy
 ```
-Set up SSH keys for fluffy
+#### Set up SSH keys for fluffy
+- Generate an SSH Key Pair (on Your Local Machine)
+```
+ssh-keygen -t rsa -b 4096 -C "thoryur@gmail.com" 
 ```
 su - fluffy
 mkdir -p ~/.ssh && chmod 700 ~/.ssh
@@ -137,5 +148,114 @@ Create User “zoro” (Password Authentication Only)
 ```
 sudo adduser zoro
 ```
+- FTP Server Installation (for User “nami”), use vsftpd for the FTP server
+```
+sudo apt update
+sudo apt install vsftpd
+```
+Backup the original configuration file:
+```
+sudo cp /etc/vsftpd.conf /etc/vsftpd.conf.backup
+```
+Edit vsftpd.conf:
+```
+sudo nano /etc/vsftpd.conf
+```
+```
+anonymous_enable=NO
+local_enable=YES
+write_enable=NO
+chroot_local_user=YES
+```
+To restrict user nami to /backup, you might set her home directory to /backup 
+```
+sudo useradd -d /backup -s /usr/sbin/nologin nami
+sudo passwd nami
+```
+Restart vsftpd
+```
+sudo systemctl restart vsftpd
+```
+- Install MySQL Server
+```
+sudo apt install mysql-server
+```
+Ensure MySQL binds only to localhost:
+Edit the MySQL configuration file (commonly /etc/mysql/mysql.conf.d/mysqld.cnf):
+```
+sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
+```
+Confirm or set:
+```
+bind-address = 127.0.0.1
+```
+Restart MySQL:
+```
+sudo systemctl restart MySQL
+```
+- Create a WordPress database and dedicated user
+Log into MySQL:
+```
+sudo mysql -u root -p
+```
+```
+CREATE DATABASE wordpress;
+CREATE USER 'wpuser'@'localhost' IDENTIFIED BY 'your_custom_password';
+GRANT ALL PRIVILEGES ON wordpress.* TO 'wpuser'@'localhost';
+FLUSH PRIVILEGES;
+EXIT;
+```
+-  WordPress Installation
+Install a web server (Apache):
+```
+sudo apt install apache2
+```
+- Download and extract WordPress:
+```
+cd /tmp
+wget https://wordpress.org/latest.tar.gz
+tar -xzvf latest.tar.gz
+sudo rsync -av wordpress/ /var/www/html/
+```
+Set permissions for the web server:
+```
+sudo chown -R www-data:www-data /var/www/html/
+sudo chmod -R 755 /var/www/html/
+```
+Configure WordPress:
+```
+cd /var/www/html
+sudo cp wp-config-sample.php wp-config.php
+sudo vim wp-config.php
+```
+```
+define('DB_NAME', 'wordpress');
+define('DB_USER', 'wpuser');
+define('DB_PASSWORD', 'your_custom_password');
+define('DB_HOST', 'localhost');
+```
+![image](https://github.com/Pomog/deep-in-system/blob/main/php.png)
+![image](https://github.com/Pomog/deep-in-system/blob/main/wp.png)
 
+- SSL for Web and FTP Servers:
+Configure self-signed SSL certificates for your Apache (or Nginx) web server and your FTP server. For Apache, you can enable SSL with:
+```
+sudo a2enmod ssl
+sudo a2ensite default-ssl
+sudo systemctl reload apache2
+```
+- Exporting the Virtual Machine
+Export the VM to a secure location using your virtualization software.
+Generate a SHA1 checksum:
+```
+sha1sum deep-in-system.ova > deep-in-system.sha1
+cat deep-in-system.sha1
+```
 
+### Generate SHA-1
+This method involves directly copying the VM’s folder, which contains all the necessary files.
+Navigate to the folder containing your VM files
+```
+Compress-Archive -Path * -DestinationPath Ubuntu.zip
+Get-FileHash -Algorithm SHA1 Ubuntu.zip | Out-File deep-in-system.sha1
+```
